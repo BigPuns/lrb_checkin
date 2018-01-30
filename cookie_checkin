@@ -1,0 +1,47 @@
+#-*- coding: utf-8 -*-
+import os
+import time
+import random
+from selenium import webdriver
+
+abspath = os.path.abspath("D:\\chromedriver.exe")
+
+def check_in(abspath, delay_time, your_company_login_url):
+  time.sleep(delay_time)   #delay a random time, avoid check in and check out is the same time everyday
+  
+  driver = webdriver.Chrome(abspath)
+  driver.get(your_company_login_url)
+  driver.delete_all_cookies()
+  
+  #对比登陆前和登陆后的cookie，添加上登陆后多出来的cookie
+  cookie_1 = {'name': 'lrb', 'value': '1218'}
+  cookie_2 = {'name': 'yxf', 'value': '1218'}
+  driver.add_cookie(cookie_1)
+  driver.add_cookie(cookie_2)
+  time.sleep(2)
+  driver.get(your_company_login_url)
+  time.sleep(2)
+  driver.find_element_by_class_name('checkin').click()
+  time.sleep(1)
+  driver.find_elememt_by_xpath('.//div[@id="Alert_dialog"]/div[1]/div[1]/div[3]/button[1]').click() #在打卡后会弹出对话框确认是否打卡下班
+  driver.quit()
+  
+if __name__ == '__main__':
+  your_company_login_url = 'aaa.com'
+  while True:
+    curr_time = time.ctime(time.time())
+    week_day = curr_time.split(' ')[0]
+    hour = curr_time.split(' ')[3].split(':')[0]
+    minute = curr_time.split(' ')[3].split(':')[1]
+    
+    if week_day != 'Sun':
+      if (hour == '07' and minute == '50') or (hour == '20' and minute == '55'):
+        delay_time = random.randint(1, 60*15)
+        check_in(abspath, delay_time, your_company_login_url)
+    else:
+      if (hour == '08' and minute == '20') or (hour == '18' and minute == '55'):
+        delay_time = random.randint(1, 60*15)
+        check_in(abspath, delay_time, your_company_login_url)
+    time.sleep(30)
+    
+        
