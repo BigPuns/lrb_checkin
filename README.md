@@ -3,7 +3,9 @@
 just in case forget check in on company net server 
 
 1. 谷歌浏览器所对应的驱动
+
 版本对应表： https://www.cnblogs.com/JHblogs/p/7699951.html
+
 驱动下载： http://chromedriver.storage.googleapis.com/index.html
 
 2. 通过浏览器的开发者工具来查看登陆前后的cookie变化通过add_cookie来添加
